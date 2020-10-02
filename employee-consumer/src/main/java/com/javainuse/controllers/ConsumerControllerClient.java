@@ -3,8 +3,12 @@
  */
 package com.javainuse.controllers;
 
+import java.util.List;
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,9 +22,20 @@ import org.springframework.web.client.RestTemplate;
  *
  */
 public class ConsumerControllerClient {
+	
+	@Autowired
+	private DiscoveryClient discoveryClient;
+	
 	public void getEmployee() throws RestClientException, IOException {
 
-		String baseUrl = "http://localhost:8080/employee";
+		List<ServiceInstance> instances=discoveryClient.getInstances("employee-producer");
+		ServiceInstance serviceInstance=instances.get(0);
+		
+		String baseUrl=serviceInstance.getUri().toString();
+		
+		baseUrl=baseUrl+"/employee";
+		
+		//String baseUrl = "http://localhost:8080/employee";
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = null;
 		try {
