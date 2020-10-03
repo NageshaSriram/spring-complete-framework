@@ -1,0 +1,13 @@
+package com.javainuse;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class EmployeeConfigServerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EmployeeConfigServerApplication.class, args);
+	}
+
+}
